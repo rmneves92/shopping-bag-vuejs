@@ -17,7 +17,7 @@
             <span class="amount">US$ {{ (product.price * product.quantity).toFixed(2) }}</span>
           </div>
         </div>
-        <div class="grand-total">Grand Total: US$ 22.30</div>
+        <div class="grand-total">Grand Total: US$ {{ this.orderTotal() }}</div>
       </template>
 
       <template v-else>
@@ -33,7 +33,17 @@ import { mapState } from 'vuex';
 export default {
   name: 'Basket',
 
-  methods: {},
+  methods: {
+    orderTotal() {
+      const total = this.productsInBag.reduce((prevValue, currentValue) => {
+        {
+          return prevValue + currentValue.price * currentValue.quantity;
+        }
+      }, 0);
+
+      return total.toFixed(2);
+    },
+  },
 
   computed: mapState(['products', 'productsInBag']),
 };
